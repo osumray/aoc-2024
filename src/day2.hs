@@ -10,15 +10,15 @@ parseInput = map (map read . words) . lines
 difference :: [Int] -> [Int]
 difference xs = zipWith (-) (drop 1 xs) xs
 
-isSMonotonicDifference :: [Int] -> Bool
-isSMonotonicDifference = isConstant . map signum
+isMonotonicDifference :: [Int] -> Bool
+isMonotonicDifference = isConstant . map signum
     where isConstant xs = and $ zipWith (==) (drop 1 xs) xs
 
 isGradualDifference :: [Int] -> Bool
 isGradualDifference = all (((&&) <$> (>=1) <*> (<=3)) . abs)
 
 isSafe :: Report -> Bool
-isSafe = and . sequenceA [isSMonotonicDifference, isGradualDifference] . difference
+isSafe = and . sequenceA [isMonotonicDifference, isGradualDifference] . difference
 
 testDampened :: (Report -> Bool) -> Report -> Bool 
 testDampened test r = helper (length r) test r 
