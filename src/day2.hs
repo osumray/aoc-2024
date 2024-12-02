@@ -18,8 +18,7 @@ isGradualDifference :: [Int] -> Bool
 isGradualDifference = all (((&&) <$> (>=1) <*> (<=3)) . abs)
 
 isSafe :: Report -> Bool
-isSafe r = isSMonotonicDifference d && isGradualDifference d
-    where d = difference r
+isSafe = and . sequenceA [isSMonotonicDifference, isGradualDifference] . difference
 
 testDampened :: (Report -> Bool) -> Report -> Bool 
 testDampened test r = helper (length r) test r 
